@@ -22,23 +22,23 @@ Dibuat untuk memenuhi tugas mata kuliah **Pengembangan Web Service**.
 
 ## 2. Tech Stack
 
-| Layer          | Teknologi                     |
-|----------------|--------------------------------|
-| Runtime        | Node.js 18+, Express.js       |
-| Database       | PostgreSQL (Supabase)         |
-| Auth           | JSON Web Token (jsonwebtoken) + bcryptjs |
-| Deployment     | Vercel (Serverless Functions) |
-| Lainnya        | helmet, cors, morgan, express-rate-limit |
+| Layer      | Teknologi                                |
+| ---------- | ---------------------------------------- |
+| Runtime    | Node.js 18+, Express.js                  |
+| Database   | PostgreSQL (Supabase)                    |
+| Auth       | JSON Web Token (jsonwebtoken) + bcryptjs |
+| Deployment | Vercel (Serverless Functions)            |
+| Lainnya    | helmet, cors, morgan, express-rate-limit |
 
 ## 3. Struktur Basis Data (ringkas)
 
-| Tabel            | Keterangan                                                       |
-|-------------------|-------------------------------------------------------------------|
-| `users`           | Akun developer/konsumen API (login JWT)                          |
-| `api_keys`        | API key milik user, dipakai untuk akses data API                 |
-| `categories`      | Kategori destinasi wisata (Pantai, Gunung, dll)                  |
-| `destinations`    | **Data inti** yang disediakan lewat API (≥ 50 baris)              |
-| `api_usage_logs`  | Log tiap request yang masuk lewat API key (analytics & kuota)    |
+| Tabel            | Keterangan                                                    |
+| ---------------- | ------------------------------------------------------------- |
+| `users`          | Akun developer/konsumen API (login JWT)                       |
+| `api_keys`       | API key milik user, dipakai untuk akses data API              |
+| `categories`     | Kategori destinasi wisata (Pantai, Gunung, dll)               |
+| `destinations`   | **Data inti** yang disediakan lewat API (≥ 50 baris)          |
+| `api_usage_logs` | Log tiap request yang masuk lewat API key (analytics & kuota) |
 
 Diagram ERD, Use Case, dan Activity/User Flow lengkap ada di **laporan PDF** (lihat folder `docs/`
 atau file laporan terpisah yang dikumpulkan).
@@ -74,13 +74,15 @@ atau file laporan terpisah yang dikumpulkan).
 ## 5. Menjalankan Secara Lokal
 
 ### 5.1 Prasyarat
+
 - Node.js 18+
 - Akun [Supabase](https://supabase.com) (gratis) atau PostgreSQL lokal
 
 ### 5.2 Setup Database di Supabase
+
 1. Buat project baru di Supabase.
 2. Buka **Project Settings > Database > Connection string**, salin URI (gunakan mode
-   *Session pooler* atau *Direct connection*).
+   _Session pooler_ atau _Direct connection_).
 3. Salin `.env.example` menjadi `.env`, isi `DATABASE_URL` dengan connection string tadi, dan isi
    `JWT_SECRET` dengan string acak yang panjang.
 
@@ -132,12 +134,13 @@ Server berjalan di `http://localhost:3000`.
 
 ### 7.1 Autentikasi (JWT) — publik
 
-| Method | Endpoint         | Body                              | Keterangan          |
-|--------|------------------|-------------------------------------|----------------------|
-| POST   | `/auth/register` | `{ name, email, password }`         | Membuat akun baru + langsung dapat token JWT |
-| POST   | `/auth/login`     | `{ email, password }`               | Login, mendapat token JWT |
+| Method | Endpoint         | Body                        | Keterangan                                   |
+| ------ | ---------------- | --------------------------- | -------------------------------------------- |
+| POST   | `/auth/register` | `{ name, email, password }` | Membuat akun baru + langsung dapat token JWT |
+| POST   | `/auth/login`    | `{ email, password }`       | Login, mendapat token JWT                    |
 
 Contoh:
+
 ```bash
 curl -X POST https://<domain-vercel-anda>/auth/login \
   -H "Content-Type: application/json" \
@@ -146,14 +149,15 @@ curl -X POST https://<domain-vercel-anda>/auth/login \
 
 ### 7.2 Manajemen API Key — butuh JWT (`Authorization: Bearer <token>`)
 
-| Method | Endpoint                         | Keterangan                       |
-|--------|-----------------------------------|-----------------------------------|
-| GET    | `/account/api-keys`               | Daftar API key milik akun login   |
-| POST   | `/account/api-keys`               | Buat API key baru `{ label }`     |
-| PATCH  | `/account/api-keys/:id/revoke`    | Nonaktifkan API key               |
-| GET    | `/account/api-keys/:id/usage`     | Statistik pemakaian API key       |
+| Method | Endpoint                       | Keterangan                      |
+| ------ | ------------------------------ | ------------------------------- |
+| GET    | `/account/api-keys`            | Daftar API key milik akun login |
+| POST   | `/account/api-keys`            | Buat API key baru `{ label }`   |
+| PATCH  | `/account/api-keys/:id/revoke` | Nonaktifkan API key             |
+| GET    | `/account/api-keys/:id/usage`  | Statistik pemakaian API key     |
 
 Contoh:
+
 ```bash
 curl -X POST https://<domain-vercel-anda>/account/api-keys \
   -H "Authorization: Bearer <TOKEN_JWT>" \
@@ -163,13 +167,14 @@ curl -X POST https://<domain-vercel-anda>/account/api-keys \
 
 ### 7.3 Data API (produk utama) — butuh API Key (`x-api-key: <api_key>`)
 
-| Method | Endpoint                       | Keterangan                                       |
-|--------|----------------------------------|----------------------------------------------------|
-| GET    | `/api/v1/categories`             | Daftar kategori wisata                              |
-| GET    | `/api/v1/destinations`           | Daftar destinasi (filter, search, pagination)       |
-| GET    | `/api/v1/destinations/:idOrSlug` | Detail satu destinasi (by id atau slug)             |
+| Method | Endpoint                         | Keterangan                                    |
+| ------ | -------------------------------- | --------------------------------------------- |
+| GET    | `/api/v1/categories`             | Daftar kategori wisata                        |
+| GET    | `/api/v1/destinations`           | Daftar destinasi (filter, search, pagination) |
+| GET    | `/api/v1/destinations/:idOrSlug` | Detail satu destinasi (by id atau slug)       |
 
 Query parameter untuk `GET /api/v1/destinations`:
+
 - `page`, `limit` — pagination (default `page=1`, `limit=10`, maks `50`)
 - `province` — filter provinsi, contoh `?province=Bali`
 - `category` — filter slug kategori, contoh `?category=pantai`
@@ -178,12 +183,14 @@ Query parameter untuk `GET /api/v1/destinations`:
 - `featured` — `true` untuk destinasi unggulan saja
 
 Contoh:
+
 ```bash
 curl "https://<domain-vercel-anda>/api/v1/destinations?province=Bali&min_rating=4.5" \
   -H "x-api-key: wd_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 ```
 
 Contoh response:
+
 ```json
 {
   "success": true,
@@ -216,4 +223,9 @@ Setelah `npm run seed` dijalankan, gunakan kredensial berikut untuk uji coba cep
   `GET /account/api-keys` setelah login).
 
 ## 9. Lisensi
+
 MIT — dibuat untuk keperluan tugas akademik.
+
+## 10. POSTMAN
+
+![alt text](image.png)
