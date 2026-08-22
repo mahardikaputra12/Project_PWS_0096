@@ -1,0 +1,31 @@
+{
+  "name": "wisata-data-api",
+  "version": "1.0.0",
+  "description": "WisataData API - SaaS API penyedia data destinasi wisata Indonesia menggunakan API Key, dibangun dengan Express.js dan PostgreSQL (Supabase). Dibuat untuk memenuhi tugas Pengembangan Web Service.",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=18.x"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "migrate": "node src/db/migrate.js",
+    "seed": "node src/db/seed.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.0",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "pg": "^8.12.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  },
+  "license": "MIT"
+}
