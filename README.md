@@ -61,3 +61,7 @@ MIT — dibuat untuk keperluan tugas akademik.
 ![alt text](image-5.png)
 ![alt text](image-8.png)
 ![alt text](image-9.png)
+
+## 7. link deploy vercel
+
+https://project-pws-0096-pxec.vercel.app
