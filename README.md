@@ -1,14 +1,3 @@
-# WisataData API 🇮🇩
-
-**WisataData API** adalah layanan SaaS (Software as a Service) yang menyediakan data destinasi
-wisata di seluruh Indonesia melalui REST API. Konsumen mendaftar akun, login dengan **JWT**,
-membuat **API Key**, lalu menggunakan API Key tersebut untuk mengakses data destinasi wisata —
-konsepnya mirip dengan OpenRouter atau OpenWeather API.
-
-Dibuat untuk memenuhi tugas mata kuliah **Pengembangan Web Service**.
-
----
-
 ## 1. Fitur Utama
 
 - **Autentikasi akun dengan JWT** (register & login).
@@ -229,3 +218,8 @@ MIT — dibuat untuk keperluan tugas akademik.
 ## 10. POSTMAN
 
 ![alt text](image.png)
+
+## 11. dokumentasi
+
+![alt text](image-1.png)
+![alt text](image-2.png)
