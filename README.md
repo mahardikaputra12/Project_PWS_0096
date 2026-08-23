@@ -131,7 +131,7 @@ Server berjalan di `http://localhost:3000`.
 Contoh:
 
 ```bash
-curl -X POST https://<domain-vercel-anda>/auth/login \
+curl -X POST https://project-pws-0096-wqv3.vercel.app//auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"demo@wisatadata.id","password":"Demo1234!"}'
 ```
@@ -218,8 +218,13 @@ MIT — dibuat untuk keperluan tugas akademik.
 ## 10. POSTMAN
 
 ![alt text](image.png)
+![alt text](image-6.png)
+![alt text](image-7.png)
 
 ## 11. dokumentasi
 
 ![alt text](image-1.png)
 ![alt text](image-2.png)
+![alt text](image-3.png)
+![alt text](image-4.png)
+![alt text](image-5.png)

@@ -10,10 +10,11 @@ const apiKeysRoutes = require('./routes/apiKeys.routes');
 const destinationsRoutes = require('./routes/destinations.routes');
 const categoriesRoutes = require('./routes/categories.routes');
 const authApiKey = require('./middleware/authApiKey');
+   const app = express();
 
-const app = express();
+   app.set('trust proxy', 1);
 
-app.use(helmet());
+   app.use(helmet());
 app.use(cors());
 app.use(express.json());
 app.use(morgan('tiny'));
