@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WisataData API — Data Destinasi Wisata Indonesia via REST API</title>
+<meta name="description" content="SaaS API penyedia data 74+ destinasi wisata Indonesia. Autentikasi JWT untuk akun, API Key untuk akses data. Dibangun dengan Express.js, PostgreSQL, dan Vercel.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;0,9..144,700;1,9..144,450&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="nav__inner">
+    <a href="#top" class="nav__brand">
+      <span class="nav__mark">WD</span>
+      <span class="nav__name">WisataData<span class="nav__dot">.</span>API</span>
+    </a>
+    <nav class="nav__links">
+      <a href="#try">Coba API</a>
+      <a href="#endpoints">Endpoint</a>
+      <a href="#stack">Tech Stack</a>
+      <a href="https://github.com/" class="nav__cta" id="githubLink" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="hero__inner">
+      <p class="eyebrow">SaaS · Data API · v1.0.0</p>
+      <h1 class="hero__title">
+        Data resmi <em>74 destinasi</em><br>
+        wisata Indonesia,<br>
+        satu <span class="underline-gold">API key</span> jauhnya.
+      </h1>
+      <p class="hero__sub">
+        WisataData API menyediakan data terstruktur destinasi wisata seluruh Indonesia —
+        koordinat, harga tiket, rating, fasilitas — siap dipakai untuk aplikasi, dashboard,
+        atau chatbot travel milikmu. Login dengan JWT, buat API key, mulai ambil data.
+      </p>
+      <div class="hero__cta">
+        <a href="#try" class="btn btn--gold">Coba endpoint langsung ↓</a>
+        <a href="#endpoints" class="btn btn--ghost">Lihat dokumentasi</a>
+      </div>
+
+      <div class="stamp-row" role="list" aria-label="Statistik data">
+        <div class="stamp" role="listitem">
+          <span class="stamp__num" data-count="74">0</span>
+          <span class="stamp__label">Destinasi</span>
+        </div>
+        <div class="stamp" role="listitem">
+          <span class="stamp__num" data-count="10">0</span>
+          <span class="stamp__label">Kategori</span>
+        </div>
+        <div class="stamp" role="listitem">
+          <span class="stamp__num" data-count="27">0</span>
+          <span class="stamp__label">Provinsi</span>
+        </div>
+        <div class="stamp" role="listitem">
+          <span class="stamp__num" data-count="5">0</span>
+          <span class="stamp__label">Tabel DB</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="passport" aria-hidden="true">
+      <div class="passport__stamp" id="coordStamp">
+        <span class="passport__line1">SEKARANG MENAMPILKAN</span>
+        <span class="passport__place" id="coordPlace">Pantai Kuta</span>
+        <span class="passport__coord" id="coordValue">-8.7183°, 115.1686°</span>
+        <span class="passport__line2">BALI · WISATADATA API</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TRY IT ============ -->
+  <section class="try" id="try">
+    <div class="section-head">
+      <p class="eyebrow eyebrow--dark">Coba Sekarang</p>
+      <h2>Panggil API-nya, lihat hasilnya di sini</h2>
+      <p class="section-sub">
+        Tempel API key kamu di bawah (dari <code>npm run seed</code> atau bikin lewat endpoint
+        <code>/account/api-keys</code>), lalu klik salah satu tombol untuk mengambil data langsung
+        dari server ini.
+      </p>
+    </div>
+
+    <div class="try__panel">
+      <div class="try__row">
+        <label for="apiKeyInput" class="try__label">API Key</label>
+        <input type="text" id="apiKeyInput" class="try__input" placeholder="wd_e9d8f8d2ec1549735fbb51b09fc15c61a2c2d46b7473ac2b" autocomplete="off" spellcheck="false">
+      </div>
+
+      <div class="try__row try__row--filters">
+        <div class="try__field">
+          <label for="provinceSelect" class="try__label">Provinsi</label>
+          <select id="provinceSelect" class="try__select">
+            <option value="">Semua provinsi</option>
+          </select>
+        </div>
+        <div class="try__field">
+          <label for="categorySelect" class="try__label">Kategori</label>
+          <select id="categorySelect" class="try__select">
+            <option value="">Semua kategori</option>
+          </select>
+        </div>
+        <div class="try__field">
+          <label for="limitInput" class="try__label">Jumlah</label>
+          <input type="number" id="limitInput" class="try__select" value="6" min="1" max="20">
+        </div>
+      </div>
+
+      <div class="try__actions">
+        <button class="btn btn--teal" id="btnCategories" type="button">GET /api/v1/categories</button>
+        <button class="btn btn--gold" id="btnDestinations" type="button">GET /api/v1/destinations</button>
+      </div>
+
+      <p class="try__status" id="tryStatus" role="status" aria-live="polite"></p>
+    </div>
+
+    <div class="try__results" id="tryResults" aria-live="polite"></div>
+  </section>
+
+  <!-- ============ ENDPOINTS (luggage tags) ============ -->
+  <section class="endpoints" id="endpoints">
+    <div class="section-head">
+      <p class="eyebrow eyebrow--dark">Dokumentasi</p>
+      <h2>Endpoint yang tersedia</h2>
+      <p class="section-sub">Tiga kelompok endpoint, tiga level akses.</p>
+    </div>
+
+    <div class="tag-group">
+      <h3 class="tag-group__title">Publik — tanpa autentikasi</h3>
+      <div class="tags">
+        <div class="tag">
+          <span class="tag__hole" aria-hidden="true"></span>
+          <span class="tag__method tag__method--get">GET</span>
+          <code class="tag__path">/</code>
+          <p class="tag__desc">Cek status server</p>
+        </div>
+        <div class="tag">
+          <span class="tag__hole" aria-hidden="true"></span>
+          <span class="tag__method tag__method--get">GET</span>
+          <code class="tag__path">/api/v1</code>
+          <p class="tag__desc">Daftar seluruh endpoint</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tag-group">
+      <h3 class="tag-group__title">Akun — butuh JWT (<code>Authorization: Bearer</code>)</h3>
+      <div class="tags">
+        <div class="tag">
+          <span class="tag__hole" aria-hidden="true"></span>
+          <span class="tag__method tag__method--post">POST</span>
+          <code class="tag__path">/auth/register</code>
+          <p class="tag__desc">Daftar akun baru, terima token JWT</p>
+        </div>
+        <div class="tag">
+          <span class="tag__hole" aria-hidden="true"></span>
+          <span class="tag__method tag__method--post">POST</span>
+          <code class="tag__path">/auth/login</code>
+          <p class="tag__desc">Login, terima token JWT</p>
+        </div>
+        <div class="tag">
+          <span class="tag__hole" aria-hidden="true"></span>
+          <span class="tag__method tag__method--post">POST</span>
+          <code class="tag__path">/account/api-keys</code>
+          <p class="tag__desc">Buat API key baru</p>
+        </div>
+        <div class="tag">
+          <span class="tag__hole" aria-hidden="true"></span>
+          <span class="tag__method tag__method--get">GET</span>
+          <code class="tag__path">/account/api-keys</code>
+          <p class="tag__desc">Lihat semua API key milikmu</p>
+        </div>
+        <div class="tag">
+          <span class="tag__hole" aria-hidden="true"></span>
+          <span class="tag__method tag__method--patch">PATCH</span>
+          <code class="tag__path">/account/api-keys/:id/revoke</code>
+          <p class="tag__desc">Nonaktifkan API key</p>
+        </div>
+        <div class="tag">
+          <span class="tag__hole" aria-hidden="true"></span>
+          <span class="tag__method tag__method--get">GET</span>
+          <code class="tag__path">/account/api-keys/:id/usage</code>
+          <p class="tag__desc">Statistik pemakaian API key</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tag-group">
+      <h3 class="tag-group__title">Data — butuh API Key (<code>x-api-key</code>)</h3>
+      <div class="tags">
+        <div class="tag">
+          <span class="tag__hole" aria-hidden="true"></span>
+          <span class="tag__method tag__method--get">GET</span>
+          <code class="tag__path">/api/v1/categories</code>
+          <p class="tag__desc">10 kategori wisata</p>
+        </div>
+        <div class="tag">
+          <span class="tag__hole" aria-hidden="true"></span>
+          <span class="tag__method tag__method--get">GET</span>
+          <code class="tag__path">/api/v1/destinations</code>
+          <p class="tag__desc">Daftar destinasi — filter, search, pagination</p>
+        </div>
+        <div class="tag">
+          <span class="tag__hole" aria-hidden="true"></span>
+          <span class="tag__method tag__method--get">GET</span>
+          <code class="tag__path">/api/v1/destinations/:idOrSlug</code>
+          <p class="tag__desc">Detail satu destinasi</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TECH STACK ============ -->
+  <section class="stack" id="stack">
+    <div class="section-head section-head--light">
+      <p class="eyebrow">Dibangun dengan</p>
+      <h2>Tech stack</h2>
+    </div>
+    <div class="stack__row">
+      <div class="stack__item">
+        <span class="stack__name">Express.js</span>
+        <span class="stack__role">Backend framework</span>
+      </div>
+      <div class="stack__item">
+        <span class="stack__name">PostgreSQL</span>
+        <span class="stack__role">Database via Supabase</span>
+      </div>
+      <div class="stack__item">
+        <span class="stack__name">JWT</span>
+        <span class="stack__role">Autentikasi akun</span>
+      </div>
+      <div class="stack__item">
+        <span class="stack__name">Vercel</span>
+        <span class="stack__role">Serverless deployment</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p>WisataData API — dibuat untuk tugas Pengembangan Web Service.</p>
+  <p class="footer__meta">Express.js · PostgreSQL (Supabase) · JWT · Vercel</p>
+</footer>
+
+<script src="/script.js"></script>
+</body>
+</html>

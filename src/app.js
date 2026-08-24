@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const path = require('path');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
@@ -10,11 +11,30 @@ const apiKeysRoutes = require('./routes/apiKeys.routes');
 const destinationsRoutes = require('./routes/destinations.routes');
 const categoriesRoutes = require('./routes/categories.routes');
 const authApiKey = require('./middleware/authApiKey');
-   const app = express();
 
-   app.set('trust proxy', 1);
+const app = express();
 
-   app.use(helmet());
+// Vercel (dan hampir semua platform serverless/hosting modern) menjalankan aplikasi
+// di belakang reverse proxy. Baris ini memberi tahu Express untuk mempercayai
+// header X-Forwarded-For dari 1 hop proxy di depannya, supaya:
+//   1) req.ip terisi dengan IP asli pengunjung (dipakai di api_usage_logs)
+//   2) express-rate-limit tidak error ERR_ERL_UNEXPECTED_X_FORWARDED_FOR
+app.set('trust proxy', 1);
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+        fontSrc: ["'self'", 'https://fonts.gstatic.com', 'data:'],
+        scriptSrc: ["'self'"],
+        imgSrc: ["'self'", 'data:'],
+        connectSrc: ["'self'"],
+      },
+    },
+  })
+);
 app.use(cors());
 app.use(express.json());
 app.use(morgan('tiny'));
@@ -29,8 +49,11 @@ const globalLimiter = rateLimit({
 });
 app.use(globalLimiter);
 
-// ---------- Health check ----------
-app.get('/', (req, res) => {
+// ---------- Static landing page (public/) ----------
+app.use(express.static(path.join(__dirname, '..', 'public')));
+
+// ---------- Health check (JSON) ----------
+app.get('/health', (req, res) => {
   res.json({
     success: true,
     message: 'WisataData API aktif 🚀',
