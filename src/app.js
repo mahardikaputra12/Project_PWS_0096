@@ -11,6 +11,7 @@ const apiKeysRoutes = require('./routes/apiKeys.routes');
 const accountRoutes = require('./routes/account.routes');
 const destinationsRoutes = require('./routes/destinations.routes');
 const categoriesRoutes = require('./routes/categories.routes');
+const browseRoutes = require('./routes/browse.routes');
 const authApiKey = require('./middleware/authApiKey');
 
 const app = express();
@@ -79,9 +80,12 @@ app.use('/auth', authLimiter, authRoutes);
 app.use('/account/api-keys', apiKeysRoutes);
 app.use('/account', accountRoutes);
 
-// ---------- Public Data API (API Key protected) ----------
+// ---------- Public Data API (API Key protected — untuk konsumen eksternal) ----------
 app.use('/api/v1/destinations', authApiKey, destinationsRoutes);
 app.use('/api/v1/categories', authApiKey, categoriesRoutes);
+
+// ---------- Browse data untuk website (JWT sesi login — tanpa API key) ----------
+app.use('/app', browseRoutes);
 
 app.get('/api/v1', (req, res) => {
   res.json({

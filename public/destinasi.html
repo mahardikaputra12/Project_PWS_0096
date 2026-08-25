@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Destinasi Wisata — WisataData API</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;0,9..144,700;1,9..144,450&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="nav__inner">
+    <a href="/" class="nav__brand">
+      <span class="nav__mark">WD</span>
+      <span class="nav__name">WisataData<span class="nav__dot">.</span>API</span>
+    </a>
+    <nav class="nav__links">
+      <a href="/destinasi.html" class="is-current-page">Destinasi</a>
+      <a href="/dashboard.html">API Keys</a>
+      <span id="userGreeting" class="nav__greeting"></span>
+      <button class="nav__cta" id="logoutBtn" type="button">Keluar</button>
+    </nav>
+  </div>
+</header>
+
+<main class="browse">
+  <div class="section-head" style="margin-bottom:28px;">
+    <p class="eyebrow eyebrow--dark">Jelajahi</p>
+    <h2>Destinasi wisata Indonesia</h2>
+    <p class="section-sub">
+      Kamu login sebagai user — data ini dimuat langsung pakai sesi login kamu,
+      tidak perlu tempel API key sama sekali.
+    </p>
+  </div>
+
+  <div class="browse__filters">
+    <input type="search" id="searchInput" class="browse__search" placeholder="Cari nama destinasi…">
+    <select id="provinceFilter" class="try__select">
+      <option value="">Semua provinsi</option>
+    </select>
+    <select id="categoryFilter" class="try__select">
+      <option value="">Semua kategori</option>
+    </select>
+    <select id="sortFilter" class="try__select">
+      <option value="">Urutkan: Rating tertinggi</option>
+      <option value="featured">Unggulan dulu</option>
+    </select>
+  </div>
+
+  <p class="browse__status" id="browseStatus" role="status" aria-live="polite"></p>
+
+  <div class="browse__grid" id="browseGrid"></div>
+
+  <div class="browse__pagination" id="browsePagination"></div>
+</main>
+
+<footer class="footer">
+  <p>WisataData API — dibuat untuk tugas Pengembangan Web Service.</p>
+</footer>
+
+<script src="/session.js"></script>
+<script src="/destinasi.js"></script>
+</body>
+</html>

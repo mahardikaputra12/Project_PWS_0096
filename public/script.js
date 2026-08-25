@@ -4,11 +4,11 @@
 
 document.getElementById('githubLink')?.setAttribute('href', 'https://github.com/');
 
-// -------------------- Toggle nav: Masuk vs Dashboard --------------------
+// -------------------- Toggle nav: Masuk vs Destinasi --------------------
 const authNavLink = document.getElementById('authNavLink');
 if (authNavLink && typeof Session !== 'undefined' && Session.isLoggedIn()) {
-  authNavLink.textContent = 'Dashboard';
-  authNavLink.href = '/dashboard.html';
+  authNavLink.textContent = 'Destinasi Wisata';
+  authNavLink.href = '/destinasi.html';
 }
 
 // -------------------- Animated stat counters --------------------
