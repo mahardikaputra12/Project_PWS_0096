@@ -61,6 +61,8 @@ MIT — dibuat untuk keperluan tugas akademik.
 ![alt text](image-5.png)
 ![alt text](image-8.png)
 ![alt text](image-9.png)
+![alt text](image-23.png)
+![alt text](image-24.png)
 
 ## 7. link deploy vercel
 
