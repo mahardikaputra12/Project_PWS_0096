@@ -8,6 +8,7 @@ require('dotenv').config();
 
 const authRoutes = require('./routes/auth.routes');
 const apiKeysRoutes = require('./routes/apiKeys.routes');
+const accountRoutes = require('./routes/account.routes');
 const destinationsRoutes = require('./routes/destinations.routes');
 const categoriesRoutes = require('./routes/categories.routes');
 const authApiKey = require('./middleware/authApiKey');
@@ -49,6 +50,15 @@ const globalLimiter = rateLimit({
 });
 app.use(globalLimiter);
 
+// Rate limit lebih ketat khusus /auth (mencegah brute-force login/register)
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, message: 'Terlalu banyak percobaan login/registrasi. Coba lagi dalam beberapa menit.' },
+});
+
 // ---------- Static landing page (public/) ----------
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
@@ -63,10 +73,11 @@ app.get('/health', (req, res) => {
 });
 
 // ---------- Auth (JWT) ----------
-app.use('/auth', authRoutes);
+app.use('/auth', authLimiter, authRoutes);
 
 // ---------- Account management (JWT protected) ----------
 app.use('/account/api-keys', apiKeysRoutes);
+app.use('/account', accountRoutes);
 
 // ---------- Public Data API (API Key protected) ----------
 app.use('/api/v1/destinations', authApiKey, destinationsRoutes);

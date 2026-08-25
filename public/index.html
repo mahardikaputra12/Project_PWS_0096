@@ -24,6 +24,7 @@
       <a href="#try">Coba API</a>
       <a href="#endpoints">Endpoint</a>
       <a href="#stack">Tech Stack</a>
+      <a href="/auth.html" id="authNavLink">Masuk</a>
       <a href="https://github.com/" class="nav__cta" id="githubLink" target="_blank" rel="noopener">GitHub ↗</a>
     </nav>
   </div>
@@ -46,8 +47,8 @@
         atau chatbot travel milikmu. Login dengan JWT, buat API key, mulai ambil data.
       </p>
       <div class="hero__cta">
-        <a href="#try" class="btn btn--gold">Coba endpoint langsung ↓</a>
-        <a href="#endpoints" class="btn btn--ghost">Lihat dokumentasi</a>
+        <a href="/auth.html" class="btn btn--gold">Daftar &amp; dapat API key ↗</a>
+        <a href="#try" class="btn btn--ghost">Coba dengan key demo</a>
       </div>
 
       <div class="stamp-row" role="list" aria-label="Statistik data">
@@ -86,16 +87,16 @@
       <p class="eyebrow eyebrow--dark">Coba Sekarang</p>
       <h2>Panggil API-nya, lihat hasilnya di sini</h2>
       <p class="section-sub">
-        Tempel API key kamu di bawah (dari <code>npm run seed</code> atau bikin lewat endpoint
-        <code>/account/api-keys</code>), lalu klik salah satu tombol untuk mengambil data langsung
-        dari server ini.
+        Tempel API key kamu di bawah (dari akun demo, atau bikin sendiri lewat
+        <a href="/auth.html">halaman Daftar</a>), lalu klik salah satu tombol untuk mengambil data
+        langsung dari server ini.
       </p>
     </div>
 
     <div class="try__panel">
       <div class="try__row">
         <label for="apiKeyInput" class="try__label">API Key</label>
-        <input type="text" id="apiKeyInput" class="try__input" placeholder="wd_e9d8f8d2ec1549735fbb51b09fc15c61a2c2d46b7473ac2b" autocomplete="off" spellcheck="false">
+        <input type="text" id="apiKeyInput" class="try__input" placeholder="wd_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" autocomplete="off" spellcheck="false">
       </div>
 
       <div class="try__row try__row--filters">
@@ -254,6 +255,7 @@
   <p class="footer__meta">Express.js · PostgreSQL (Supabase) · JWT · Vercel</p>
 </footer>
 
+<script src="/session.js"></script>
 <script src="/script.js"></script>
 </body>
 </html>

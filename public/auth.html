@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Masuk / Daftar — WisataData API</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;0,9..144,700;1,9..144,450&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body class="auth-body">
+
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="nav__inner">
+    <a href="/" class="nav__brand">
+      <span class="nav__mark">WD</span>
+      <span class="nav__name">WisataData<span class="nav__dot">.</span>API</span>
+    </a>
+    <nav class="nav__links">
+      <a href="/#endpoints">Dokumentasi</a>
+    </nav>
+  </div>
+</header>
+
+<main class="auth-wrap">
+  <div class="authcard">
+    <p class="eyebrow eyebrow--dark">Akun Developer</p>
+
+    <div class="tabs" role="tablist" aria-label="Pilih Masuk atau Daftar">
+      <button class="tabs__btn is-active" id="tabLogin" role="tab" aria-selected="true" type="button">Masuk</button>
+      <button class="tabs__btn" id="tabRegister" role="tab" aria-selected="false" type="button">Daftar</button>
+    </div>
+
+    <!-- ============ LOGIN FORM ============ -->
+    <form id="loginForm" class="authform" novalidate>
+      <div class="field">
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" required autocomplete="email" placeholder="kamu@email.com">
+      </div>
+      <div class="field">
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" required autocomplete="current-password" placeholder="••••••••">
+      </div>
+      <button type="submit" class="btn btn--gold authform__submit">Masuk</button>
+      <p class="authform__hint">
+        Belum punya akun? <button type="button" class="link-btn" id="goRegister">Daftar di sini</button>
+      </p>
+    </form>
+
+    <!-- ============ REGISTER FORM ============ -->
+    <form id="registerForm" class="authform" novalidate hidden>
+      <div class="field">
+        <label for="regName">Nama</label>
+        <input type="text" id="regName" required autocomplete="name" placeholder="Nama lengkap">
+      </div>
+      <div class="field">
+        <label for="regEmail">Email</label>
+        <input type="email" id="regEmail" required autocomplete="email" placeholder="kamu@email.com">
+      </div>
+      <div class="field">
+        <label for="regPassword">Password</label>
+        <input type="password" id="regPassword" required autocomplete="new-password" minlength="6" placeholder="Minimal 6 karakter">
+      </div>
+      <div class="field">
+        <label for="regPasswordConfirm">Ulangi Password</label>
+        <input type="password" id="regPasswordConfirm" required autocomplete="new-password" minlength="6" placeholder="Ulangi password di atas">
+      </div>
+      <button type="submit" class="btn btn--gold authform__submit">Buat Akun</button>
+      <p class="authform__hint">
+        Sudah punya akun? <button type="button" class="link-btn" id="goLogin">Masuk di sini</button>
+      </p>
+    </form>
+
+    <p class="authform__status" id="authStatus" role="status" aria-live="polite"></p>
+
+    <div class="authcard__demo">
+      <p class="authcard__demo-title">Coba pakai akun demo</p>
+      <p class="authcard__demo-body">
+        Email: <code>demo@wisatadata.id</code><br>
+        Password: <code>Demo1234!</code>
+      </p>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <p>WisataData API — dibuat untuk tugas Pengembangan Web Service.</p>
+</footer>
+
+<script src="/session.js"></script>
+<script src="/auth.js"></script>
+</body>
+</html>

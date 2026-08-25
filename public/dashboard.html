@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — WisataData API</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;0,9..144,700;1,9..144,450&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="nav__inner">
+    <a href="/" class="nav__brand">
+      <span class="nav__mark">WD</span>
+      <span class="nav__name">WisataData<span class="nav__dot">.</span>API</span>
+    </a>
+    <nav class="nav__links">
+      <span id="userGreeting" class="nav__greeting"></span>
+      <button class="nav__cta" id="logoutBtn" type="button">Keluar</button>
+    </nav>
+  </div>
+</header>
+
+<main class="dash">
+  <div class="section-head" style="margin-bottom:32px;">
+    <p class="eyebrow eyebrow--dark">Dashboard</p>
+    <h2>Kelola API key kamu</h2>
+    <p class="section-sub">Buat, pantau, dan cabut API key yang dipakai untuk mengakses WisataData API.</p>
+  </div>
+
+  <!-- ============ CREATE KEY ============ -->
+  <section class="dash__panel">
+    <h3 class="dash__panel-title">Buat API Key Baru</h3>
+    <form id="createKeyForm" class="dash__inline-form">
+      <input type="text" id="keyLabelInput" placeholder="Label, misal: Aplikasi mobile" maxlength="100">
+      <button type="submit" class="btn btn--gold">+ Buat Key</button>
+    </form>
+    <p class="dash__status" id="createStatus" role="status" aria-live="polite"></p>
+  </section>
+
+  <!-- ============ NEW KEY REVEAL (once) ============ -->
+  <section class="dash__panel dash__panel--reveal" id="newKeyPanel" hidden>
+    <h3 class="dash__panel-title">⚠️ Simpan API key ini sekarang</h3>
+    <p class="dash__reveal-note">Key lengkap hanya ditampilkan sekali. Setelah kamu tinggalkan halaman ini, hanya versi tersamar yang bisa dilihat lagi.</p>
+    <div class="dash__reveal-box">
+      <code id="newKeyValue"></code>
+      <button class="btn btn--teal" id="copyKeyBtn" type="button">Salin</button>
+    </div>
+    <button class="link-btn" id="dismissNewKey" type="button">Sudah saya simpan, sembunyikan</button>
+  </section>
+
+  <!-- ============ KEY LIST ============ -->
+  <section class="dash__panel">
+    <h3 class="dash__panel-title">API Key Milikmu</h3>
+    <div class="keys" id="keysList">
+      <p class="dash__loading">Memuat…</p>
+    </div>
+  </section>
+
+  <!-- ============ USAGE DETAIL (modal-ish panel) ============ -->
+  <section class="dash__panel" id="usagePanel" hidden>
+    <div class="dash__panel-head">
+      <h3 class="dash__panel-title">Statistik Pemakaian — <span id="usageKeyLabel"></span></h3>
+      <button class="link-btn" id="closeUsage" type="button">Tutup</button>
+    </div>
+    <p class="dash__usage-total">Total request hari ini: <strong id="usageTotal">0</strong></p>
+    <div class="usage-table-wrap">
+      <table class="usage-table">
+        <thead>
+          <tr><th>Waktu</th><th>Method</th><th>Endpoint</th><th>Status</th></tr>
+        </thead>
+        <tbody id="usageTableBody"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <p>WisataData API — dibuat untuk tugas Pengembangan Web Service.</p>
+</footer>
+
+<script src="/session.js"></script>
+<script src="/dashboard.js"></script>
+</body>
+</html>

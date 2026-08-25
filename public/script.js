@@ -4,6 +4,13 @@
 
 document.getElementById('githubLink')?.setAttribute('href', 'https://github.com/');
 
+// -------------------- Toggle nav: Masuk vs Dashboard --------------------
+const authNavLink = document.getElementById('authNavLink');
+if (authNavLink && typeof Session !== 'undefined' && Session.isLoggedIn()) {
+  authNavLink.textContent = 'Dashboard';
+  authNavLink.href = '/dashboard.html';
+}
+
 // -------------------- Animated stat counters --------------------
 function animateCount(el, target, duration = 900) {
   const start = performance.now();

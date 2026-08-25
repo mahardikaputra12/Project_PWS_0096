@@ -10,7 +10,15 @@ function generateApiKey() {
   return 'wd_' + crypto.randomBytes(24).toString('hex');
 }
 
-// GET /account/api-keys -> daftar API key milik user yang login
+// Samarkan API key saat ditampilkan ulang (bukan saat pertama dibuat), supaya
+// key lengkap tidak berulang kali terekspos lewat response API/log/screenshot.
+// Contoh: wd_e9d8f8d2ec1549735fbb51b09fc15c61a2c2d46b7473ac2b -> wd_e9d8f8...73ac2b
+function maskApiKey(key) {
+  if (!key || key.length < 14) return key;
+  return `${key.slice(0, 9)}...${key.slice(-6)}`;
+}
+
+// GET /account/api-keys -> daftar API key milik user yang login (key disamarkan)
 router.get('/', async (req, res) => {
   try {
     const result = await pool.query(
@@ -18,14 +26,15 @@ router.get('/', async (req, res) => {
        FROM api_keys WHERE user_id = $1 ORDER BY created_at DESC`,
       [req.user.id]
     );
-    res.json({ success: true, data: result.rows });
+    const data = result.rows.map((row) => ({ ...row, api_key: maskApiKey(row.api_key) }));
+    res.json({ success: true, data });
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false, message: 'Terjadi kesalahan pada server.' });
   }
 });
 
-// POST /account/api-keys -> buat API key baru
+// POST /account/api-keys -> buat API key baru (key LENGKAP hanya muncul di response ini, sekali saja)
 router.post('/', async (req, res) => {
   try {
     const { label } = req.body;
@@ -37,7 +46,11 @@ router.post('/', async (req, res) => {
       [req.user.id, label || 'Default Key', apiKey]
     );
 
-    res.status(201).json({ success: true, message: 'API key berhasil dibuat.', data: result.rows[0] });
+    res.status(201).json({
+      success: true,
+      message: 'API key berhasil dibuat. Simpan sekarang — key lengkap tidak akan ditampilkan lagi.',
+      data: result.rows[0],
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false, message: 'Terjadi kesalahan pada server.' });
